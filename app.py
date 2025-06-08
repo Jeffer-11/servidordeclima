@@ -162,8 +162,8 @@ app = Flask(__name__)
 cors = CORS(app, resources={
     r"/*": {
         "origins": [
-            "http://localhost:3000",  # Para pruebas locales
             "chatbotclima-b3dudba5fndahshv.centralus-01.azurewebsites.net",  # Tu dominio real en Azure
+            "http://localhost:3000",  # Para pruebas locales
         ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
