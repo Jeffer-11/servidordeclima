@@ -163,7 +163,7 @@ cors = CORS(app, resources={
     r"/*": {
         "origins": [
             "http://localhost:3000",  # Para pruebas locales
-            "https://chatbotclima-b3dudba5fndahshv.eastus-01.azurewebsites.net",  # Tu dominio real en Azure
+            "chatbotclima-b3dudba5fndahshv.centralus-01.azurewebsites.net",  # Tu dominio real en Azure
         ],
         "methods": ["GET", "POST", "OPTIONS"],
         "allow_headers": ["Content-Type", "Authorization"],
