@@ -6,29 +6,23 @@ python-dotenv==1.0.0
 requests==2.31.0
 
 # Procesamiento de lenguaje natural
-spacy==3.8.0
+spacy==3.8.7
 https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.8.0/es_core_news_sm-3.8.0-py3-none-any.whl#sha256=e451a83d6df79b87e9eed0cb553f03e99e36a3bab18a7b79f0dcfd1fdf875e12
 nltk==3.8.1
 
 # Manejo de zonas horarias
 pytz==2023.3
-timezonefinder==6.4.2
+timezonefinder==6.5.9  # Versión más reciente disponible
 
-# Utilidades
-python-dotenv==1.0.0
-requests==2.31.0
-numpy>=1.20.0,<2.0.0
-shellingham==1.5.4
-smart-open==7.1.0
-sniffio==1.3.1
-spacy==3.8.7
+# Dependencias de spaCy
 spacy-legacy==3.0.12
 spacy-loggers==1.0.5
 srsly==2.5.1
 thinc==8.3.6
-timezonefinder==6.5.9
+
+# Utilidades
+numpy>=1.20.0,<2.0.0
 tqdm==4.67.1
-typer==0.16.0
 typing-inspection==0.4.1
 typing_extensions==4.14.0
 urllib3==2.4.0
