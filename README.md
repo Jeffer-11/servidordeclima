@@ -13,6 +13,7 @@ Asegúrate de configurar las siguientes variables en la configuración de tu App
 | `WEBSITES_PORT` | 8000 | Puerto en el que se ejecutará la aplicación |
 | `SCM_DO_BUILD_DURING_DEPLOYMENT` | 1 | Habilita la instalación de dependencias durante el despliegue |
 
+| `gunicorn app:app` | gunicorn app:app | Comando para iniciar la aplicación con Gunicorn |
 ### Configuración de la Aplicación
 1. Ve a tu App Service en Azure Portal
 2. Navega a "Configuración" > "Configuración"
