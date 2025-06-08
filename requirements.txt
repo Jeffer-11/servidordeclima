@@ -1,19 +1,27 @@
 # Dependencias principales
-Flask
-flask-cors
-gunicorn
-python-dotenv
-requests
+Flask>=2.0.0,<3.0.0
+flask-cors>=3.0.10,<4.0.0
+gunicorn>=20.1.0,<21.0.0
+python-dotenv>=0.19.0,<1.0.0
+requests>=2.26.0,<3.0.0
 
 # Procesamiento de lenguaje natural
-spacy
-https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.8.0/es_core_news_sm-3.8.0-py3-none-any.whl#sha256=e451a83d6df79b87e9eed0cb553f03e99e36a3bab18a7b79f0dcfd1fdf875e12
-nltk
+spacy>=3.5.0,<3.6.0
+https://github.com/explosion/spacy-models/releases/download/es_core_news_sm-3.5.0/es_core_news_sm-3.5.0.tar.gz
+nltk>=3.6.7,<4.0.0
 
 # Manejo de zonas horarias
-pytz
-timezonefinder
+pytz>=2021.3,<2023.0
+timezonefinder>=6.4.0,<7.0.0
 
 # Utilidades
-numpy
-tqdm
+numpy>=1.23.5,<1.24.0
+tqdm>=4.62.3,<5.0.0
+
+# Dependencias específicas de spaCy
+thinc>=8.0.0,<8.1.0
+blis>=0.7.5,<0.8.0
+wasabi>=0.9.0,<1.0.0
+srsly>=2.4.0,<3.0.0
+catalogue>=2.0.6,<3.0.0
+setuptools>=65.0.0,<66.0.0
