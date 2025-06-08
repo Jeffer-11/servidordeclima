@@ -72,27 +72,27 @@ CONDICIONES_TRADUCIDAS = {
 
 # Countries and their capitals
 PAISES_INFO = {
-    'chile': {'capital': 'Santiago', 'codigo': 'CL'},
-    'argentina': {'capital': 'Buenos Aires', 'codigo': 'AR'},
-    'españa': {'capital': 'Madrid', 'codigo': 'ES'},
-    'mexico': {'capital': 'Ciudad de México', 'codigo': 'MX'},
-    'colombia': {'capital': 'Bogotá', 'codigo': 'CO'},
-    'peru': {'capital': 'Lima', 'codigo': 'PE'},
-    'venezuela': {'capital': 'Caracas', 'codigo': 'VE'},
-    'ecuador': {'capital': 'Quito', 'codigo': 'EC'},
-    'bolivia': {'capital': 'La Paz', 'codigo': 'BO'},
-    'paraguay': {'capital': 'Asunción', 'codigo': 'PY'},
-    'uruguay': {'capital': 'Montevideo', 'codigo': 'UY'},
-    'brasil': {'capital': 'Brasilia', 'codigo': 'BR'},
-    'estados unidos': {'capital': 'Washington', 'codigo': 'US'},
-    'canada': {'capital': 'Ottawa', 'codigo': 'CA'},
-    'francia': {'capital': 'París', 'codigo': 'FR'},
-    'italia': {'capital': 'Roma', 'codigo': 'IT'},
-    'alemania': {'capital': 'Berlín', 'codigo': 'DE'},
-    'reino unido': {'capital': 'Londres', 'codigo': 'GB'},
-    'japon': {'capital': 'Tokio', 'codigo': 'JP'},
-    'china': {'capital': 'Pekín', 'codigo': 'CN'},
-    'rusia': {'capital': 'Moscú', 'codigo': 'RU'}
+    'chile': {'capital': 'Santiago', 'codigo': 'CL', 'variantes': ['chile', 'chi', 'cl']},
+    'argentina': {'capital': 'Buenos Aires', 'codigo': 'AR', 'variantes': ['argentina', 'arg', 'ar']},
+    'españa': {'capital': 'Madrid', 'codigo': 'ES', 'variantes': ['españa', 'espana', 'esp', 'es']},
+    'mexico': {'capital': 'Ciudad de México', 'codigo': 'MX', 'variantes': ['mexico', 'méxico', 'mex', 'mx']},
+    'colombia': {'capital': 'Bogotá', 'codigo': 'CO', 'variantes': ['colombia', 'col', 'co']},
+    'peru': {'capital': 'Lima', 'codigo': 'PE', 'variantes': ['peru', 'perú', 'per', 'pe']},
+    'venezuela': {'capital': 'Caracas', 'codigo': 'VE', 'variantes': ['venezuela', 'ven', 've']},
+    'ecuador': {'capital': 'Quito', 'codigo': 'EC', 'variantes': ['ecuador', 'ec']},
+    'bolivia': {'capital': 'La Paz', 'codigo': 'BO', 'variantes': ['bolivia', 'bol', 'bo']},
+    'paraguay': {'capital': 'Asunción', 'codigo': 'PY', 'variantes': ['paraguay', 'par', 'py']},
+    'uruguay': {'capital': 'Montevideo', 'codigo': 'UY', 'variantes': ['uruguay', 'uru', 'uy']},
+    'brasil': {'capital': 'Brasilia', 'codigo': 'BR', 'variantes': ['brasil', 'brazil', 'bra', 'br']},
+    'estados unidos': {'capital': 'Washington', 'codigo': 'US', 'variantes': ['estados unidos', 'usa', 'us', 'eeuu', 'estados unidos de america', 'united states']},
+    'canada': {'capital': 'Ottawa', 'codigo': 'CA', 'variantes': ['canada', 'canadá', 'ca']},
+    'francia': {'capital': 'París', 'codigo': 'FR', 'variantes': ['francia', 'fr']},
+    'italia': {'capital': 'Roma', 'codigo': 'IT', 'variantes': ['italia', 'it']},
+    'alemania': {'capital': 'Berlín', 'codigo': 'DE', 'variantes': ['alemania', 'de', 'germany']},
+    'reino unido': {'capital': 'Londres', 'codigo': 'GB', 'variantes': ['reino unido', 'uk', 'gb', 'gran bretaña', 'inglaterra', 'united kingdom']},
+    'japon': {'capital': 'Tokio', 'codigo': 'JP', 'variantes': ['japon', 'japón', 'jp']},
+    'china': {'capital': 'Pekín', 'codigo': 'CN', 'variantes': ['china', 'cn']},
+    'rusia': {'capital': 'Moscú', 'codigo': 'RU', 'variantes': ['rusia', 'ru', 'russian federation']}
 }
 
 # Capital cities by country for weather lookups
@@ -525,31 +525,30 @@ class ChatbotClima:
         """Obtiene el clima actual para una ubicación o país y devuelve un dict estructurado."""
         try:
             ubicacion_lower = ubicacion.lower().strip()
-            # Si es país conocido, usar la capital y el código de país
-            if ubicacion_lower in PAISES_INFO:
-                capital = PAISES_INFO[ubicacion_lower]['capital']
-                codigo_pais = PAISES_INFO[ubicacion_lower]['codigo']
-                logger.info(f"📍 Usando capital {capital} para país {ubicacion_lower} ({codigo_pais})")
+            pais_encontrado = None
+            for pais, info in PAISES_INFO.items():
+                if ubicacion_lower == pais or ubicacion_lower in info['variantes']:
+                    pais_encontrado = pais
+                    break
+            if pais_encontrado:
+                capital = PAISES_INFO[pais_encontrado]['capital']
+                codigo_pais = PAISES_INFO[pais_encontrado]['codigo']
+                logger.info(f"📍 Usando capital {capital} para país {pais_encontrado} ({codigo_pais})")
                 nombre_ciudad, lat, lon, codigo_pais_resp = self.obtener_coordenadas(capital, codigo_pais)
             else:
                 nombre_ciudad, lat, lon, codigo_pais_resp = self.obtener_coordenadas(ubicacion)
-
-            # Si no se encuentra, intentar variantes
-            if not all([lat, lon]):
-                for pais, info in PAISES_INFO.items():
-                    if ubicacion_lower == pais or ubicacion_lower == info['capital'].lower():
-                        nombre_ciudad, lat, lon, codigo_pais_resp = self.obtener_coordenadas(info['capital'], info['codigo'])
-                        if all([lat, lon]):
-                            break
-
+                # Si no se encuentra, intentar variantes de país
+                if not all([lat, lon]):
+                    for pais, info in PAISES_INFO.items():
+                        if ubicacion_lower == pais or ubicacion_lower in info['variantes'] or ubicacion_lower == info['capital'].lower():
+                            nombre_ciudad, lat, lon, codigo_pais_resp = self.obtener_coordenadas(info['capital'], info['codigo'])
+                            if all([lat, lon]):
+                                break
             if not all([lat, lon]):
                 logger.warning(f"No pude encontrar la ubicación: {ubicacion}")
                 return {'error': f"No pude encontrar la ubicación: {ubicacion}"}
-
-            # Obtener datos del clima
             clima_data = self.obtener_clima_por_coordenadas(lat, lon)
             return clima_data
-
         except WeatherAPIError as e:
             logger.error(f"Error en API del clima: {str(e)}")
             return {'error': f"Error al obtener el clima: {str(e)}"}
@@ -911,7 +910,25 @@ def create_app():
                     return jsonify({
                         'respuesta': 'Error al procesar tu ubicación. Por favor, inténtalo de nuevo.'
                     }), 500
-            
+
+            # Manejar mensajes directos de clima
+            if mensaje.startswith('@clima:'):
+                pais = mensaje.replace('@clima:', '').strip().lower()
+                logger.info(f"🌦️ Consulta directa de clima para: {pais}")
+                clima = chatbot.obtener_clima_actual(pais)
+                if 'error' in clima:
+                    return jsonify({'respuesta': clima['error']}), 400
+                return jsonify({'respuesta': clima})
+
+            # Manejar mensajes directos de hora
+            if mensaje.startswith('@hora:'):
+                pais = mensaje.replace('@hora:', '').strip().lower()
+                logger.info(f"🕒 Consulta directa de hora para: {pais}")
+                hora = chatbot.obtener_hora_ciudad(pais)
+                if 'error' in hora:
+                    return jsonify({'respuesta': hora['error']}), 400
+                return jsonify({'respuesta': hora})
+
             # Procesar mensaje normal
             logger.info("🔄 Procesando mensaje normal")
             try:
