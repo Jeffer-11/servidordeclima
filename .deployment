@@ -1,2 +1,3 @@
 [config]
 SCM_DO_BUILD_DURING_DEPLOYMENT = 1
+SCM_SCRIPT_GENERATOR_XPLAT_CONFIG={"command" : "pip install -r requirements.txt"}
