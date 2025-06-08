@@ -919,7 +919,7 @@ def create_app():
 
                 # Si la respuesta es un dict con error, devolver error
                 if isinstance(respuesta, dict) and 'error' in respuesta:
-                    logger.info(f"❌ Respuesta de error: {respuesta['error']}")
+                    logger.info(f"❌Respuesta de error: {respuesta['error']}")
                     return jsonify({'respuesta': respuesta['error']}), 400
 
                 # Si es dict con datos de clima/hora, devolver tal cual
@@ -932,18 +932,18 @@ def create_app():
                 return jsonify({'respuesta': respuesta})
 
             except Exception as e:
-                logger.error(f"❌ Error al procesar el mensaje: {str(e)}", exc_info=True)
+                logger.error(f"❌Error al procesar el mensaje: {str(e)}", exc_info=True)
                 return jsonify({
-                    'respuesta': '❌ Ocurrió un error al procesar tu mensaje. Por favor, inténtalo de nuevo.'
+                    'respuesta': '❌Ocurrió un error al procesar tu mensaje. Por favor, inténtalo de nuevo.'
                 }), 500
 
         except Exception as e:
-            logger.error(f"❌ ERROR NO MANEJADO en la ruta /chat: {str(e)}", exc_info=True)
+            logger.error(f"❌ERROR NO MANEJADO en la ruta /chat: {str(e)}", exc_info=True)
             return jsonify({
-                'respuesta': '❌ Lo siento, ha ocurrido un error en el servidor. Por favor, inténtalo de nuevo más tarde.'
+                'respuesta': '❌Lo siento, ha ocurrido un error en el servidor. Por favor, inténtalo de nuevo más tarde.'
             }), 500
         finally:
-            logger.info("✅ Solicitud finalizada\n" + "="*80 + "\n")
+            logger.info("✅Solicitud finalizada\n" + "="*80 + "\n")
     
     @app.errorhandler(404)
     def not_found_error(error):
