@@ -157,7 +157,19 @@ except OSError:
 
 # Initialize Flask app
 app = Flask(__name__)
-CORS(app)  # Enable CORS for all routes
+
+# Configuración de CORS para producción
+cors = CORS(app, resources={
+    r"/*": {
+        "origins": [
+            "http://localhost:3000",  # Para pruebas locales
+            "https://chatbotclima-b3dudba5fndahshv.eastus-01.azurewebsites.net",  # Tu dominio real en Azure
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }
+})
 
 class WeatherAPIError(Exception):
     """Custom exception for Weather API errors."""
